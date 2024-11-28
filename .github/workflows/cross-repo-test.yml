@@ -1,0 +1,38 @@
+name: Cross-Repo System Test
+
+on:
+  repository_dispatch:
+    types:
+      - cross-repo-test
+
+jobs:
+  run-system-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Testing Repository
+        uses: actions/checkout@v3
+
+      - name: Clone and Run System Test
+        run: |
+          echo "Running system tests with branches: ${{ github.event.client_payload.branch1 }} and ${{ github.event.client_payload.branch2 }}"
+
+          ./testing.sh ${{ github.event.client_payload.branch1 }} ${{ github.event.client_payload.branch2 }}
+      
+      - name: Post Test Results to Original PR
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ success() }}" = "true" ]; then
+            STATUS="Tests passed successfully"
+          else
+            STATUS="Tests failed"
+          fi
+
+          PR_URL="${{ github.event.client_payload.pull_request_url }}"
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"System Testing Results: $STATUS\"}" \
+            $PR_URL/comments
+
