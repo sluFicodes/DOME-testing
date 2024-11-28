@@ -1,0 +1,9 @@
+{
+    "name": "System Testing",
+    "author": "slu",
+    "version": "1.0",
+    "module": "sTest.STestPlugin",
+    "media_types": [],
+    "formats": ["URL", "FILE"],
+    "overrides": []
+  }

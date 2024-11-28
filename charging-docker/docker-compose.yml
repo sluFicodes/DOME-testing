@@ -1,0 +1,36 @@
+version: '3'
+services:
+    charging_mongo:
+        image: mongo:6.0
+        ports:
+            - 27018:27017
+        networks:
+            main:
+        volumes:
+            - ./charging-data:/data/db
+
+    charging:
+        image: charging-system-dev
+        links:
+            - charging_mongo
+        depends_on:
+            - charging_mongo
+        ports:
+            - 8006:8006
+        networks:
+            main:
+                aliases:
+                    - charging.docker
+        volumes:
+            - ../src:/business-ecosystem-charging-backend/src/
+        environment:
+          - BAE_CB_MONGO_SERVER=charging_mongo
+          - BAE_CB_SERVICE_CATALOG=http://host.docker.internal:8637
+          - BAE_CB_INVENTORY=http://host.docker.internal:8642
+          - BAE_CB_SERVICE_INVENTORY=http://host.docker.internal:8643
+          - BAE_CB_USAGE=http://host.docker.internal:8080
+
+networks:
+    main:
+        external: true
+

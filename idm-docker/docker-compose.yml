@@ -1,0 +1,29 @@
+version: "2"
+networks:
+   main:
+    external: true
+
+services:
+   mysql:
+     platform: linux/x86_64
+     image: biarms/mysql:5.7
+     networks:
+       main:
+        aliases:
+          - mysql.idm.docker
+     volumes:
+       - ./vol-mysql:/var/lib/mysql
+     environment:
+       - MYSQL_ROOT_PASSWORD=idm
+
+   fiware-idm:
+     image: fiware/idm:7.9.1
+     ports:
+       - "3000:3000"
+       - "443:443"
+     networks:
+       main:
+        aliases:
+          - idm.docker
+     environment:
+       - IDM_DB_HOST=mysql.idm.docker
