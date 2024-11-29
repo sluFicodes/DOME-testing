@@ -31,8 +31,8 @@ services:
             - BAE_LP_SIOP_CALLBACK_PATH=http://proxy.docker:8004/auth/vc/callback
             - BAE_LP_SIOP_ALLOWED_ROLES=seller,customer
             - BAE_LP_OAUTH2_SERVER=http://idm.docker:3000
-            - BAE_LP_OAUTH2_CLIENT_ID=c49a8f7d-6955-47e7-a8a2-2d7af5c0f942
-            - BAE_LP_OAUTH2_CLIENT_SECRET=43133f86-5618-418a-a936-e999bdf31ad3
+            - BAE_LP_OAUTH2_CLIENT_ID: ${CLIENT_ID}
+            - BAE_LP_OAUTH2_CLIENT_SECRET: ${CLIENT_SECRET}
             - BAE_LP_OIDC_ENABLED=false
         volumes:
             - ../:/business-ecosystem-logic-proxy

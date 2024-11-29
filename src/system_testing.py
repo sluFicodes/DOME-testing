@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 import string
 import time
 import traceback
@@ -43,8 +44,8 @@ try:
     step = 1
 
     auth_url = "http://idm.docker:3000/oauth2/token"
-    username = "c49a8f7d-6955-47e7-a8a2-2d7af5c0f942"
-    password = "43133f86-5618-418a-a936-e999bdf31ad3"
+    username = os.environ.get("CLIENT_ID")
+    password = os.environ.get("CLIENT_SECRET")
     basic_token = base64.b64encode(f"{username}:{password}".encode()).decode()
     headers = {
         "Authorization": f"Basic {basic_token}",
