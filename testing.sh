@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e # Stop script if any error occurs
 
-proxy_br=$1
-charging_br=$2
+PROXY_BR=$1
+CHARGING_BR=$2
+TM_VERSION=$3
 
-if [[ -z $proxy_br || -z $charging_br ]]; then
-    echo -e "use structure: command proxy_branch charging_branch\033[0m"
+if [[ -z $PROXY_BR || -z $CHARGING_BR || -z $TM_VERSION ]]; then
+    echo -e "use structure: command PROXY_BRANCH CHARGING_BRANCH TMFORUM_VERSION\033[0m"
     exit 1
 fi
 
@@ -42,8 +43,8 @@ echo -e "\033[35m$2 ready in $SECOND_WAITED seconds\033[0m"
 
 
 # TODO: repos need to be set dinamically
-proxy_rp="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
-charging_rp="git@github.com:sluFicodes/business-ecosystem-charging-backend.git"
+PROXY_RP="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
+CHARGING_RP="git@github.com:sluFicodes/business-ecosystem-charging-backend.git"
 
 # 1. install pre-requirement
 echo -e "\033[35mupdating pre-requesites\033[0m"
@@ -69,12 +70,28 @@ fi
 echo -e "\033[35mcloning the specified repo\033[0m"
 
 echo -e "\033[35mcloning proxy\033[0m"
-clone_repo_branch $proxy_rp $proxy_br proxy-repo proxy-system-dev || { echo -e "Docker clone failed."; exit 1; }
+clone_repo_branch $PROXY_RP $PROXY_BR proxy-repo proxy-system-dev || { echo -e "Docker clone failed."; exit 1; }
 
 echo -e "\033[35mcloning charging\033[0m"
-clone_repo_branch $charging_rp  $charging_br charging-repo charging-system-dev || { echo -e "Docker clone failed."; exit 1; }
+clone_repo_branch $CHARGING_RP  $CHARGING_BR charging-repo charging-system-dev || { echo -e "Docker clone failed."; exit 1; }
 
 # 3. docker up and register app in idm
+
+cd scorpiodb
+docker compose up -d
+echo -e "\033[35mscorpio deployed\033[0m"
+cd ..
+
+cd api
+export TM_VERSION
+docker compose up -d
+echo -e "\033[35mtmforum api deployed\033[0m"
+cd ..
+
+wait_server http://localhost:8636/resourceCatalog resourceCatalog
+wait_server http://localhost:8637/serviceCatalog serviceCatalog
+wait_server http://localhost:8632/productSpecification productCatalog
+
 cd idm-docker
 docker compose up -d
 echo -e "\033[35midm server deployed\033[0m"
@@ -203,25 +220,7 @@ echo -e "\033[35mproxy and charging deployed\033[0m"
 # 4. execute cloned dockers
 echo -e "\033[35mexecuting dockers...\033[0m"
 
-SECONDS_WAITED=0
-while [ "$(docker inspect -f '{{.State.Running}}' charging-docker-charging-1)" != "true" ]; do
-    sleep 5
-    SECONDS_WAITED=$((SECONDS_WAITED + INTERVAL))
-    if [ $SECONDS_WAITED -ge 60 ]; then
-        echo -e "\033[31mtimeout error\033[0m"
-        exit 1
-    fi
-done
-
-SECONDS_WAITED=0
-while [ "$(docker inspect -f '{{.State.Running}}' proxy-docker-proxy-1)" != "true" ]; do
-    sleep 5
-    SECONDS_WAITED=$((SECONDS_WAITED + INTERVAL))
-    if [ $SECONDS_WAITED -ge 60 ]; then
-        echo -e "\033[31mtimeout error\033[0m"
-        exit 1
-    fi
-done
+sleep 10
 
 echo -e "\033[35mwaited $SECONDS_WAITED seconds for proxy\033[0m"
 echo -e "\033[35mexecuting proxy...\033[0m"

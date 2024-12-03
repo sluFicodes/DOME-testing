@@ -1,11 +1,15 @@
 import json
+import requests
 
 f = open("data/sTest/package.json", "r")
 plugin = f.read()
 plugin = json.loads(plugin)
 
+# TODO: Need to be transferred to system_testing.py and get the data as parameter
+body = requests.get("http://localhost:8633/individual?externalReferenceType.name=admin").json()
+
 CONFIG = {
-    "related_party_id": "urn:ngsi-ld:individual:7ffcd2cc-c730-4ab4-819f-1ec7288e0eac"
+    "related_party_id": body[0]["id"]
 }
 # For cleaning tests
 API ={

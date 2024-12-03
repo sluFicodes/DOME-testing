@@ -2,7 +2,7 @@ version: '3'
 
 services:
   party-catalog:
-    image: quay.io/fiware/tmforum-party-catalog:0.25.1
+    image: quay.io/fiware/tmforum-party-catalog:${TM_VERSION}
     ports:
       - 8633:8081
     networks:
@@ -26,7 +26,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   service-inventory:
-    image: quay.io/fiware/tmforum-service-inventory:0.25.1
+    image: quay.io/fiware/tmforum-service-inventory:${TM_VERSION}
     ports:
       - 8643:8081
     networks:
@@ -50,7 +50,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   account:
-    image: quay.io/fiware/tmforum-account:0.25.1
+    image: quay.io/fiware/tmforum-account:${TM_VERSION}
     ports:
       - 8644:8081
     networks:
@@ -74,7 +74,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   product-catalog:
-    image: quay.io/fiware/tmforum-product-catalog:0.25.1
+    image: quay.io/fiware/tmforum-product-catalog:${TM_VERSION}
     ports:
       - 8632:8081
     networks:
@@ -98,7 +98,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   service-catalog:
-    image: quay.io/fiware/tmforum-service-catalog:0.25.1
+    image: quay.io/fiware/tmforum-service-catalog:${TM_VERSION}
     ports:
       - 8637:8081
     networks:
@@ -122,7 +122,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   resource-catalog:
-    image: quay.io/fiware/tmforum-resource-catalog:0.25.1
+    image: quay.io/fiware/tmforum-resource-catalog:${TM_VERSION}
     ports:
       - 8636:8081
     networks:
@@ -146,7 +146,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   product-ordering:
-    image: quay.io/fiware/tmforum-product-ordering-management:0.25.1
+    image: quay.io/fiware/tmforum-product-ordering-management:${TM_VERSION}
     ports:
       - 8639:8081
     networks:
@@ -170,7 +170,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   product-inventory:
-    image: quay.io/fiware/tmforum-product-inventory:0.25.1
+    image: quay.io/fiware/tmforum-product-inventory:${TM_VERSION}
     ports:
       - 8642:8081
     networks:
@@ -194,7 +194,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   resource-inventory:
-    image: quay.io/fiware/tmforum-resource-inventory:0.25.1
+    image: quay.io/fiware/tmforum-resource-inventory:${TM_VERSION}
     ports:
       - 8641:8081
     networks:
@@ -218,7 +218,7 @@ services:
       GENERAL_ENCLOSEQUERY: false
 
   usage:
-    image: quay.io/fiware/tmforum-usage-management:0.25.1
+    image: quay.io/fiware/tmforum-usage-management:${TM_VERSION}
     ports:
       - 8080:8081
     networks:
