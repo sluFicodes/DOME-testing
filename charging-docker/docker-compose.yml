@@ -22,7 +22,7 @@ services:
                 aliases:
                     - charging.docker
         volumes:
-            - ../src:/business-ecosystem-charging-backend/src/
+            - ../charging-repo/src:/business-ecosystem-charging-backend/src/
         environment:
           - BAE_CB_MONGO_SERVER=charging_mongo
           - BAE_CB_SERVICE_CATALOG=http://host.docker.internal:8637

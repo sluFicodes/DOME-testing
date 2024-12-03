@@ -104,7 +104,7 @@ try:
     step = 4
 
     command = [
-        "docker", "exec", "-i", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-i", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--eval", f"db.wstore_resource.find({{_id: ObjectId('{asset_id}')}})"
     ]
 
@@ -233,7 +233,7 @@ try:
     step = 12
 
     command = [
-        "docker", "exec", "-i", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-i", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--eval", f"db.wstore_offering.find({{off_id: '{offering_id}'}})"
     ]
 
@@ -265,7 +265,7 @@ try:
     step = 14
 
     command = [
-        "docker", "exec", "-i", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-i", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--quiet", "--eval", f"db.wstore_resource.find({{_id: ObjectId('{asset_id}') , state: 'upgrading'}})"
     ]
 
@@ -288,14 +288,14 @@ try:
     step = 16
 
     command = [
-        "docker", "exec", "-i", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-i", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--quiet", "--eval", f"db.wstore_resource.find({{_id: ObjectId('{asset_id}') , state: 'upgrading'}})"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
     assert len(result.stdout.strip("\n")) == 0, "asset is upgraded when it should not"
 
     command = [
-        "docker", "exec", "-i", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-i", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--quiet", "--eval", f"db.wstore_resource.find({{_id: ObjectId('{asset_id}') , state: 'attached'}})"
     ]
     result = subprocess.run(command, capture_output=True, text=True)
@@ -332,7 +332,7 @@ try:
     step = 19
 
     command = [
-        "docker", "exec", "-i", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-i", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--eval", f"db.wstore_resource.find({{_id: ObjectId('{asset_id}'), state: 'attached', version: '0.5'}})"
     ]
 
@@ -431,7 +431,7 @@ finally:
     _cleaning_api("service_spec", service_spec_id)
     if asset_id is not None:
         command = [
-        "docker", "exec", "-ti", "docker-dev-charging_mongo-1",
+        "docker", "exec", "-ti", "charging-docker-charging_mongo-1",
         "mongosh", "wstore_db", "--eval", f"db.wstore_resource.deleteOne({{_id: ObjectId('{asset_id}')}})"
         ]
         result = subprocess.run(command, capture_output=True, text=True)
