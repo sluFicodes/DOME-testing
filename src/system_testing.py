@@ -83,9 +83,9 @@ try:
     # step 3: service spec creation
     print("step 3: service spec creation")
     step = 3
-
+    related_party = requests.get("http://localhost:8633/individual?externalReferenceType.name=admin").json()[0]["id"]
     service_spec_url = "http://proxy.docker:8004/service/serviceSpecification"
-    body = service_spec(asset_id, ASSET, "0.1")
+    body = service_spec(asset_id, ASSET, "0.1", related_party)
     print(body)
     result = requests.post(service_spec_url, headers=token_headers, json=body)
     result.raise_for_status()
@@ -128,7 +128,7 @@ try:
     step = 5
 
     product_spec_url = "http://proxy.docker:8004/catalog/productSpecification"
-    product_spec_body = product_spec(service_spec_id)
+    product_spec_body = product_spec(service_spec_id, related_party)
     result = requests.post(product_spec_url, json= product_spec_body, headers=token_headers)
     result.raise_for_status()
     result = result.json()
@@ -154,8 +154,8 @@ try:
     step = 7
 
     service_url = API["service"]
-    body1 = service("service1" , service_spec_id, service_spec_version, service_spec_name, asset_id)
-    body2 = service("service2" , service_spec_id, service_spec_version, service_spec_name, asset_id)
+    body1 = service("service1" , service_spec_id, service_spec_version, service_spec_name, asset_id, related_party)
+    body2 = service("service2" , service_spec_id, service_spec_version, service_spec_name, asset_id, related_party)
     result = requests.post(service_url, json=body1, headers=token_headers)
     result.raise_for_status()
     result = result.json()
@@ -318,7 +318,7 @@ try:
     print("step 18: patching service specification")
     step = 18
 
-    body = service_spec(asset_id, UPGRADED_ASSET, "0.5")
+    body = service_spec(asset_id, UPGRADED_ASSET, "0.5", related_party)
     result = requests.patch(service_spec_url + "/" + service_spec_id, json=body, headers=token_headers)
     result.raise_for_status()
     result = result.json()
@@ -337,7 +337,6 @@ try:
     ]
 
     result = subprocess.run(command, capture_output=True, text=True)
-    print(result.stdout)
     assert len(result.stdout.strip("\n")) != 0, "asset with the new version doesn't found in mongoDB"
     print("mongoDB:", result.stdout)
 
@@ -352,7 +351,7 @@ try:
 
     # step 20: Checking service 1 and service 2 have been upgraded
     print("step 20: Checking service 1 and service 2 have been upgraded")
-    time.sleep(2)
+    time.sleep(10)
     step = 20
     print("checking service 1")
     result = requests.get(service_url + "/" + service_id1, headers=token_headers)

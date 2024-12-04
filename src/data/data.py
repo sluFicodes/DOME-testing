@@ -5,12 +5,6 @@ f = open("data/sTest/package.json", "r")
 plugin = f.read()
 plugin = json.loads(plugin)
 
-# TODO: Need to be transferred to system_testing.py and get the data as parameter
-body = requests.get("http://localhost:8633/individual?externalReferenceType.name=admin").json()
-
-CONFIG = {
-    "related_party_id": body[0]["id"]
-}
 # For cleaning tests
 API ={
     "service_spec": "http://localhost:8637/serviceSpecification",
@@ -30,9 +24,9 @@ ASSET = {
 UPGRADED_ASSET = {
     "resourceType": plugin["name"],
     "content": "https://www.bing.com/?setlang=es",
-    "contentType": plugin["name"][0]
+    "contentType": plugin["formats"][0]
 }
-def service_spec(asset_id, asset, version):
+def service_spec(asset_id, asset, version, related_party):
     return {
         "version": version,
         "lifecycleStatus": "Active",
@@ -107,8 +101,8 @@ def service_spec(asset_id, asset, version):
         "attachment": [],
         "relatedParty": [
             {
-                "id": CONFIG["related_party_id"],
-                "href": f"http://proxy.docker:8004/party/individual/urn:ngsi-ld:individual:{CONFIG['related_party_id']}",
+                "id": related_party,
+                "href": f"http://proxy.docker:8004/party/individual/urn:ngsi-ld:individual:{related_party}",
                 "role": "Owner"
             }
         ],
@@ -118,7 +112,7 @@ def service_spec(asset_id, asset, version):
     }
 
 
-def product_spec(service_spec_id):
+def product_spec(service_spec_id, related_party):
     return {
     "version": "0.1",
     "lifecycleStatus": "Active",
@@ -127,8 +121,8 @@ def product_spec(service_spec_id):
     "attachment": [],
     "relatedParty": [
         {
-            "id": CONFIG["related_party_id"],
-            "href": F"http://proxy.docker:8004/party/individual/{CONFIG['related_party_id']}",
+            "id": related_party,
+            "href": F"http://proxy.docker:8004/party/individual/{related_party}",
             "role": "Owner"
         }
     ],
@@ -146,7 +140,7 @@ def product_spec(service_spec_id):
     "bundledProductSpecification": []
 }
 
-def service(name ,service_spec_id, service_spec_version, service_spec_name, asset_id):
+def service(name ,service_spec_id, service_spec_version, service_spec_name, asset_id, related_party):
     return {
     "name": name,
     "catalogType": "test",
@@ -159,8 +153,8 @@ def service(name ,service_spec_id, service_spec_version, service_spec_name, asse
     "supportingResource": [],
     "relatedParty": [
             {
-                "id": CONFIG["related_party_id"],
-                "href": f"http://proxy.docker:8004/party/individual/urn:ngsi-ld:individual:{CONFIG['related_party_id']}",
+                "id": related_party,
+                "href": f"http://proxy.docker:8004/party/individual/urn:ngsi-ld:individual:{related_party}",
                 "role": "Owner"
             }
         ],
