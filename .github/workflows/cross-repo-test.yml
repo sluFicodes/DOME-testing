@@ -15,5 +15,5 @@ jobs:
 
       - name: first test workflow
         run: |
-          echo ${{ toJSON(github.event.client_payload) }}
+          echo '${{ toJSON(github.event.client_payload) }}'
 
