@@ -19,13 +19,13 @@ jobs:
         run: |
           echo "test: $ert"
           echo "ert=hola" >> $GITHUB_ENV
+          env
 
       - name: System testing (build + execution)
         env:
           GIT_TOKEN: ${{ secrets.PAT_TEST }}
         run: |
           ls
-          env
           export ert=hola
           echo $GIT_TOKEN
           echo "GIT_TOKEN=${{ secrets.PAT_TEST }}" >> $GITHUB_ENV
