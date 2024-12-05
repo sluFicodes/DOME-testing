@@ -40,7 +40,7 @@ done
 
 echo -e "\033[35m$2 ready in $SECOND_WAITED seconds\033[0m"
 }
-
+echo "git token: $GIT_TOKEN"
 # TODO: repos need to be set dinamically
 if [ -z $GIT_TOKEN ]; then
     PROXY_RP="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
