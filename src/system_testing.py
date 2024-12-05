@@ -43,7 +43,7 @@ try:
     print("step 1: access token creation")
     step = 1
 
-    auth_url = "http://idm.docker:3000/oauth2/token"
+    auth_url = "http://localhost:3000/oauth2/token"
     username = os.environ.get("CLIENT_ID")
     password = os.environ.get("CLIENT_SECRET")
     basic_token = base64.b64encode(f"{username}:{password}".encode()).decode()
