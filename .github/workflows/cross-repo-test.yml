@@ -18,6 +18,7 @@ jobs:
           GIT_TOKEN: ${{ secrets.PAT_TEST }}
         run: |
           ls
+          echo $GIT_TOKEN
           chmod +x testing.sh
           sudo ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1
 
