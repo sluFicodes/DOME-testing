@@ -16,7 +16,8 @@ jobs:
       - name: setting env
         env:
           ert: hola
-        run: echo $ert
+        run: |
+          echo "test: $ert"
 
       - name: System testing (build + execution)
         env:
