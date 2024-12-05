@@ -89,13 +89,13 @@ clone_repo_branch $CHARGING_RP  $CHARGING_BR charging-repo charging-system-dev |
 # 3. docker up and register app in idm
 
 cd scorpiodb
-docker compose up -d
+docker compose up -d > /dev/null 2>&1
 echo -e "\033[35mscorpio deployed\033[0m"
 cd ..
 
 cd api
 export TM_VERSION
-docker compose up -d
+docker compose up -d > /dev/null 2>&1
 echo -e "\033[35mtmforum api deployed\033[0m"
 cd ..
 
@@ -104,11 +104,11 @@ wait_server http://localhost:8637/serviceCatalog serviceCatalog
 wait_server http://localhost:8632/productSpecification productCatalog
 
 cd idm-docker
-docker compose up -d
+docker compose up -d > /dev/null 2>&1
 echo -e "\033[35midm server deployed\033[0m"
 cd ..
 
-wait_server http://idm.docker:3000/version idm
+wait_server http://localhost:3000/version idm
 
 echo -e "\033[35mregistering app in idm ...\033[0m"
 admin_token=$(curl -X POST \
@@ -218,12 +218,12 @@ curl -X POST \
 
 echo -e "\033[35mdeploying charging\033[0m"
 cd charging-docker
-docker compose up -d || { echo -e "Docker compose up failed."; exit 1; }
+docker compose up -d > /dev/null 2>&1 || { echo -e "Docker compose up failed."; exit 1; }
 cd ..
 
 echo -e "\033[35mdeploying proxy\033[0m"
 cd proxy-docker
-docker compose up -d || { echo -e "Docker compose up failed."; exit 1; }
+docker compose up -d > /dev/null 2>&1 || { echo -e "Docker compose up failed."; exit 1; }
 cd ..
 
 echo -e "\033[35mproxy and charging deployed\033[0m"
