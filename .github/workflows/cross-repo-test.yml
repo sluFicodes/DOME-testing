@@ -14,7 +14,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setting PAT
-        run: echo "GIT_TOKEN=${{ secrets.PAT_TEST }}" >> $GITHUB_ENV
+        run: |
+          GIT_TOKEN=${{ secrets.PAT_TEST }}
+          export GIT_TOKEN
 
       - name: System testing (build + execution)
         run: |
