@@ -19,7 +19,7 @@ jobs:
         run: |
           ls
           echo $GIT_TOKEN
-          export ert=hola
+          echo "ert=hola" >> $GITHUB_ENV
           export GIT_TOKEN
           chmod +x testing.sh
           sudo ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1
