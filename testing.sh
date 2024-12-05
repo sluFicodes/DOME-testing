@@ -18,7 +18,7 @@ clone_repo_branch () {
     echo -e "\033[35mcharging repo cloned successfully.\033[0m"
     cd docker-dev
     echo -e "\033[35mbuilding docker image...\033[0m"
-    docker build -t $4 .    
+    docker build -qt $4 .    
     cd ../..
 }
 
