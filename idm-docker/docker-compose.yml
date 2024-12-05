@@ -21,7 +21,7 @@ services:
      extra_hosts:
             - "host.docker.internal:172.17.0.1"
             - "proxy.docker:127.0.0.1"
-            - "charging.docker:127.0.0.1"
+
      ports:
        - "3000:3000"
        - "443:443"
