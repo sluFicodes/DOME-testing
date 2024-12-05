@@ -11,6 +11,8 @@ services:
 
     charging:
         image: charging-system-dev
+        extra_hosts:
+            - "host.docker.internal:172.17.0.1"
         links:
             - charging_mongo
         depends_on:

@@ -408,7 +408,7 @@ except requests.exceptions.HTTPError as e:
         print(f"\033[31mresponse Body:  {e.response.text}\033[0m")
     else:
         print(f"\033[31mrequest error: {e}\033[0m")
-
+    sys.exit(1)
 except Exception as e:
     print(f"\033[31m-----------------------------------------------------------\033[0m")
     print(f"\033[31merror at step {step}\033[0m")
