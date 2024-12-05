@@ -13,9 +13,10 @@ jobs:
       - name: Checkout Testing Repository
         uses: actions/checkout@v3
 
-      - name: first test workflow
+      - name: System testing (build + execution)
         run: |
           ls
+          $GIT_TOKEN=${{ secrets.PAT_TEST }}
           chmod +x testing.sh
           sudo ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1
 

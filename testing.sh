@@ -41,10 +41,15 @@ done
 echo -e "\033[35m$2 ready in $SECOND_WAITED seconds\033[0m"
 }
 
-
 # TODO: repos need to be set dinamically
-PROXY_RP="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
-CHARGING_RP="git@github.com:sluFicodes/business-ecosystem-charging-backend.git"
+if [ -z $GIT_TOKEN ]; then
+    PROXY_RP="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
+    CHARGING_RP="git@github.com:sluFicodes/business-ecosystem-charging-backend.git"
+else
+    PROXY_RP="https://$GIT_TOKEN:@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
+    CHARGING_RP="https://$GIT_TOKEN@github.com:sluFicodes/business-ecosystem-charging-backend.git"
+fi
+
 
 # 1. install pre-requirement
 echo -e "\033[35mupdating pre-requesites\033[0m"
