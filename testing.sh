@@ -46,8 +46,10 @@ if [ -z $GIT_TOKEN ]; then
     PROXY_RP="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
     CHARGING_RP="git@github.com:sluFicodes/business-ecosystem-charging-backend.git"
 else
-    PROXY_RP="https://$GIT_TOKEN:@github.com/sluFicodes/business-ecosystem-logic-proxy.git"
-    CHARGING_RP="https://$GIT_TOKEN:@github.com/sluFicodes/business-ecosystem-charging-backend.git"
+    # PROXY_RP="https://$GIT_TOKEN:@github.com/sluFicodes/business-ecosystem-logic-proxy.git"
+    # CHARGING_RP="https://$GIT_TOKEN:@github.com/sluFicodes/business-ecosystem-charging-backend.git"
+    echo -e "\033[31mGIT_TOKEN is not available\033[0m"
+    exit 1
 fi
 
 
