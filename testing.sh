@@ -55,6 +55,7 @@ fi
 
 
 # 1. install pre-requirement
+echo -e "\033[35mSTART BUILDING\033[0m"
 echo -e "\033[35mupdating pre-requesites\033[0m"
 apt-get update && apt-get install -y \
     python3 \
@@ -231,9 +232,8 @@ echo -e "\033[35mproxy and charging deployed\033[0m"
 # 4. execute cloned dockers
 echo -e "\033[35mexecuting dockers...\033[0m"
 
-sleep 10
+sleep 20
 
-echo -e "\033[35mwaited $SECONDS_WAITED seconds for proxy\033[0m"
 echo -e "\033[35mexecuting proxy...\033[0m"
 docker exec -d proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; exit 1; }
 wait_server http://localhost:8004/version proxy
@@ -243,7 +243,7 @@ docker exec charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-
 docker exec -d charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py runserver 0.0.0.0:8006" || { echo -e "Docker exec run charging server failed."; exit 1; }
 wait_server http://localhost:8004/service charging
 
-echo -e "\033[35mdockers up\033[0m"
+echo -e "\033[35mBUILD FINISHED\033[0m"
 
 
 # 5. run system test
