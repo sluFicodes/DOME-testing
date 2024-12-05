@@ -404,6 +404,7 @@ try:
 except requests.exceptions.HTTPError as e:
     print(f"\033[31mrequest error at step {step}\033[0m")
     if e.response is not None:
+        print(f"\033[31mURL Error: {e.response.url}\033[0m")
         print(f"\033[31mstatus Code: {e.response.status_code}\033[0m")
         print(f"\033[31mresponse Body:  {e.response.text}\033[0m")
     else:
