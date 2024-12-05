@@ -84,7 +84,7 @@ try:
     print("step 3: service spec creation")
     step = 3
     related_party = requests.get("http://localhost:8633/individual?externalReferenceType.name=admin").json()[0]["id"]
-    service_spec_url = "http://proxy.docker:8004/service/serviceSpecification"
+    service_spec_url = "http://localhost:8004/service/serviceSpecification"
     body = service_spec(asset_id, ASSET, "0.1", related_party)
     print(body)
     result = requests.post(service_spec_url, headers=token_headers, json=body)
@@ -127,7 +127,7 @@ try:
     print("step 5: product spec creation")
     step = 5
 
-    product_spec_url = "http://proxy.docker:8004/catalog/productSpecification"
+    product_spec_url = "http://localhost:8004/catalog/productSpecification"
     product_spec_body = product_spec(service_spec_id, related_party)
     result = requests.post(product_spec_url, json= product_spec_body, headers=token_headers)
     result.raise_for_status()
@@ -175,7 +175,7 @@ try:
     print("step 8: product creation with api")
     step = 8
 
-    product_url = "http://proxy.docker:8004/inventory/product" # Cannot use it
+    product_url = "http://localhost:8004/inventory/product" # Cannot use it
     body = product_with_service_list("product1", ["service1", "service2"], [service_id1, service_id2])
     result = requests.post(API["product"], json= body, headers=token_headers)
     result.raise_for_status()
@@ -189,7 +189,7 @@ try:
     print("step 9: product offering price creation")
     step = 9
 
-    offer_price_url = "http://proxy.docker:8004/catalog/productOfferingPrice"
+    offer_price_url = "http://localhost:8004/catalog/productOfferingPrice"
     body = offering_price("price", "1.0", "EUR", "1.0")
     result = requests.post(offer_price_url, json=body, headers=token_headers)
     result.raise_for_status()
@@ -218,7 +218,7 @@ try:
     print("step 11: product offering creation")
     step = 11
 
-    offering_url = "http://proxy.docker:8004/catalog/productOffering"
+    offering_url = "http://localhost:8004/catalog/productOffering"
     body = offering("offering", product_spec_id, offering_price_id, offering_price_name, offering_price_version)
     result = requests.post(offering_url, json= body, headers=token_headers)
     result.raise_for_status()
