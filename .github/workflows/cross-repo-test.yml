@@ -16,5 +16,6 @@ jobs:
       - name: first test workflow
         run: |
           ls
+          chmod +x testing.sh
           ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1
 
