@@ -40,6 +40,7 @@ done
 
 echo -e "\033[35m$2 ready in $SECOND_WAITED seconds\033[0m"
 }
+env
 echo "git token: $GIT_TOKEN"
 echo "test: $ert"
 # TODO: repos need to be set dinamically
