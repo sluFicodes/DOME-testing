@@ -13,6 +13,8 @@ services:
         image: proxy-system-dev
         extra_hosts:
             - "host.docker.internal:172.17.0.1"
+            - "proxy.docker:127.0.0.1"
+            - "charging.docker:127.0.0.1"
         links:
             - mongo
         depends_on:
