@@ -117,7 +117,7 @@ admin_token=$(curl -X POST \
          "password": "1234"
         }' \
      -i \
-     http://idm.docker:3000/v1/auth/tokens | grep -i "X-Subject-Token:" | awk '{print $2}' | sed 's/[[:space:]]//g')
+     http://localhost:3000/v1/auth/tokens | grep -i "X-Subject-Token:" | awk '{print $2}' | sed 's/[[:space:]]//g')
 
 echo -e "\033[35midm admin token saved:\033[0m $admin_token"
 
@@ -144,7 +144,7 @@ app_json=$(curl -X POST \
     ]                  
   }                             
 }' \
-     http://idm.docker:3000/v1/applications)
+     http://localhost:3000/v1/applications)
 
 echo -e "\033[35mapp registering response\033[0m"
 echo -e $app_json
@@ -167,7 +167,7 @@ seller=$(curl -X POST \
     "name": "seller"
   }
 }' \
-     http://idm.docker:3000/v1/applications/$CLIENT_ID/roles)
+     http://localhost:3000/v1/applications/$CLIENT_ID/roles)
 seller_id=$(python3 auth_cred.py --attr role --key id --sjson $seller)
 
 echo -e "\033[35msetting customer role in idm\033[0m"
@@ -180,7 +180,7 @@ customer=$(curl -X POST \
     "name": "customer"
   }
 }' \
-     http://idm.docker:3000/v1/applications/$CLIENT_ID/roles)
+     http://localhost:3000/v1/applications/$CLIENT_ID/roles)
 customer_id=$(python3 auth_cred.py --attr role --key id --sjson $customer)
 
 echo -e "\033[35msetting admin role in idm\033[0m"
@@ -193,7 +193,7 @@ admin=$(curl -X POST \
     "name": "admin"
   }
 }' \
-     http://idm.docker:3000/v1/applications/$CLIENT_ID/roles)
+     http://localhost:3000/v1/applications/$CLIENT_ID/roles)
 admin_id=$(python3 auth_cred.py --attr role --key id --sjson $admin)
 
 echo -e "\033[35massigning roles to the user\033[0m"
@@ -201,19 +201,19 @@ echo -e "\033[35massigning seller role to the user\033[0m"
 curl -X POST \
      -H "X-Auth-token: $admin_token" \
      -H "Content-Type: application/json" \
-     http://idm.docker:3000/v1/applications/$CLIENT_ID/users/admin/roles/$seller_id
+     http://localhost:3000/v1/applications/$CLIENT_ID/users/admin/roles/$seller_id
 
 echo -e "\033[35massigning customer role to the user\033[0m"
 curl -X POST \
      -H "X-Auth-token: $admin_token" \
      -H "Content-Type: application/json" \
-     http://idm.docker:3000/v1/applications/$CLIENT_ID/users/admin/roles/$customer_id
+     http://localhost:3000/v1/applications/$CLIENT_ID/users/admin/roles/$customer_id
 
 echo -e "\033[35massigning admin role to the user\033[0m"
 curl -X POST \
      -H "X-Auth-token: $admin_token" \
      -H "Content-Type: application/json" \
-     http://idm.docker:3000/v1/applications/$CLIENT_ID/users/admin/roles/$admin_id
+     http://localhost:3000/v1/applications/$CLIENT_ID/users/admin/roles/$admin_id
 
 
 echo -e "\033[35mdeploying charging\033[0m"
