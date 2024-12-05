@@ -15,7 +15,6 @@ jobs:
 
       - name: first test workflow
         run: |
-          pwd
-          cd ..
+          ls
           ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1
 
