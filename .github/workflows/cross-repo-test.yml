@@ -13,22 +13,11 @@ jobs:
       - name: Checkout Testing Repository
         uses: actions/checkout@v3
 
-      - name: setting env
-        env:
-          ERT: hola
-        run: |
-          echo "test: $ERT"
-          echo "ERT=hola" >> $GITHUB_ENV
-          env
-
       - name: System testing (build + execution)
         env:
           GIT_TOKEN: ${{ secrets.PAT_TEST }}
         run: |
           ls
-          export ERT=hola
-          echo "ERT=hola" >> $GITHUB_ENV
-          echo $GIT_TOKEN
           echo "GIT_TOKEN=${{ secrets.PAT_TEST }}" >> $GITHUB_ENV
           chmod +x testing.sh
           ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1

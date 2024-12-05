@@ -40,7 +40,6 @@ done
 
 echo -e "\033[35m$2 ready in $SECOND_WAITED seconds\033[0m"
 }
-env
 echo "git token: $GIT_TOKEN"
 echo "test: $ERT"
 # TODO: repos need to be set dinamically
@@ -76,6 +75,9 @@ else
     exit 1
 fi
 # 2. clone specified repo and build the docker images
+echo -e "\033[35mcreating docker networks\033[0m"
+docker network create dome
+docker network create main
 echo -e "\033[35mcloning the specified repo\033[0m"
 
 echo -e "\033[35mcloning proxy\033[0m"
