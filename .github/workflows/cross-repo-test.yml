@@ -18,7 +18,6 @@ jobs:
           GIT_TOKEN: ${{ secrets.PAT_TEST }}
         run: |
           ls
-          echo "GIT_TOKEN=${{ secrets.PAT_TEST }}" >> $GITHUB_ENV
           chmod +x testing.sh
-          ./testing.sh slu/service_spec_asset myrepo/asset_types_to_service_categories 0.25.1
+          ./testing.sh ${{ github.event.client_payload.branch_A }} ${{ github.event.client_payload.repository_A }} ${{ github.event.client_payload.branch_B }} ${{ github.event.client_payload.repository_B }} ${{ github.event.client_payload.tm_version }}
 

@@ -2,11 +2,14 @@
 set -e # Stop script if any error occurs
 
 PROXY_BR=$1
-CHARGING_BR=$2
-TM_VERSION=$3
+PROXY_REPO=$2
+CHARGING_BR=$3
+CHARGING_REPO=$4
+TM_VERSION=$5
 
-if [[ -z $PROXY_BR || -z $CHARGING_BR || -z $TM_VERSION ]]; then
-    echo -e "use structure: command PROXY_BRANCH CHARGING_BRANCH TMFORUM_VERSION\033[0m"
+
+if [[ -z $PROXY_BR || -z $CHARGING_BR || -z $TM_VERSION || -z $PROXY_REPO || -z $CHARGING_REPO ]]; then
+    echo -e "use structure: command PROXY_BRANCH PROXY_REPO CHARGING_BRANCH CHARGING_REPO TMFORUM_VERSION\033[0m"
     exit 1
 fi
 
@@ -49,8 +52,10 @@ if [ -z $GIT_TOKEN ]; then
     # PROXY_RP="git@github.com:sluFicodes/business-ecosystem-logic-proxy.git"
     # CHARGING_RP="git@github.com:sluFicodes/business-ecosystem-charging-backend.git"
 else
-    PROXY_RP="https://$GIT_TOKEN:@github.com/sluFicodes/business-ecosystem-logic-proxy.git"
-    CHARGING_RP="https://$GIT_TOKEN:@github.com/sluFicodes/business-ecosystem-charging-backend.git"
+    PROXY_RP="https://$GIT_TOKEN:@github.com/$PROXY_REPO.git"
+    CHARGING_RP="https://$GIT_TOKEN:@github.com/$CHARGING_REPO.git"
+    echo proxy git: $PROXY_RP
+    echo charging git: $CHARGING_RP
 fi
 
 
