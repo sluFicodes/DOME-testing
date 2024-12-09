@@ -19,5 +19,11 @@ jobs:
         run: |
           ls
           chmod +x testing.sh
-          ./testing.sh ${{ github.event.client_payload.branch_A }} ${{ github.event.client_payload.repository_A }} ${{ github.event.client_payload.branch_B }} ${{ github.event.client_payload.repository_B }} ${{ github.event.client_payload.tm_version }}
+          BRANCH_A=${{ github.event.client_payload.branch_A }}
+          BRANCH_B=${{ github.event.client_payload.branch_B }}
+          if [[ -z $BRANCH_A ]]; then
+            BRANCH_A=master
+          if [[ -z $BRANCH_B ]]; then
+            BRANCH_B=master
+          ./testing.sh $BRANCH_A ${{ github.event.client_payload.repository_A }} $BRANCH_B ${{ github.event.client_payload.repository_B }} ${{ github.event.client_payload.tm_version }}
 
