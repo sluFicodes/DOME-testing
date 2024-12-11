@@ -17,10 +17,11 @@ jobs:
         env:
           GIT_TOKEN: ${{ secrets.PAT_TEST }}
         run: |
-          ls
           chmod +x testing.sh
+          echo "starting system testing"
           BRANCH_A=${{ github.event.client_payload.branch_A }}
           BRANCH_B=${{ github.event.client_payload.branch_B }}
+          echo "evaluating branches..."
           if [[ -z $BRANCH_A ]]; then
             BRANCH_A=master
           if [[ -z $BRANCH_B ]]; then
