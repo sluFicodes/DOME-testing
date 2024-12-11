@@ -22,6 +22,8 @@ jobs:
           BRANCH_A=${{ github.event.client_payload.branch_A }}
           BRANCH_B=${{ github.event.client_payload.branch_B }}
           echo "evaluating branches..."
+          echo "$BRANCH_A"
+          echo "$BRANCH_B"
           if [[ -z $BRANCH_A ]]; then
             BRANCH_A=master
           if [[ -z $BRANCH_B ]]; then
