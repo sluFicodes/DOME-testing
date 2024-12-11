@@ -25,5 +25,7 @@ jobs:
             BRANCH_A=master
           if [[ -z $BRANCH_B ]]; then
             BRANCH_B=master
+          echo "proxy branch: $BRANCH_A"
+          echo "charging branch: $BRANCH_B"
           ./testing.sh $BRANCH_A ${{ github.event.client_payload.repository_A }} $BRANCH_B ${{ github.event.client_payload.repository_B }} ${{ github.event.client_payload.tm_version }}
 
