@@ -241,7 +241,7 @@ sleep 20
 
 echo -e "\033[35mexecuting proxy...\033[0m"
 docker exec -d proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; exit 1; }
-wait_server http://localhost:8004/version proxy || {docker logs -f proxy-docker-proxy-1; exit 1; }
+wait_server http://localhost:8004/version proxy || { docker logs -f proxy-docker-proxy-1; exit 1; }
 
 echo -e "\033[35mexecuting charging...\033[0m"
 docker exec charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py migrate" || { echo -e "Docker exec migrate failed."; exit 1; }
