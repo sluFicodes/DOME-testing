@@ -241,6 +241,8 @@ sleep 20
 
 echo -e "\033[35mexecuting proxy...\033[0m"
 docker exec -d proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; exit 1; }
+sleep 10
+docker logs -f proxy-docker-proxy-1
 wait_server http://localhost:8004/version proxy || { docker logs -f proxy-docker-proxy-1; exit 1; }
 
 echo -e "\033[35mexecuting charging...\033[0m"
