@@ -240,6 +240,7 @@ echo -e "\033[35mexecuting dockers...\033[0m"
 sleep 20
 
 echo -e "\033[35mexecuting proxy...\033[0m"
+echo -e "\033[35mnode env: $NODE_ENV\033[0m"
 docker exec  proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; exit 1; }
 wait_server http://localhost:8004/version proxy || { docker logs -f proxy-docker-proxy-1; exit 1; }
 
