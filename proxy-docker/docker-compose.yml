@@ -26,19 +26,69 @@ services:
                 aliases:
                     - proxy.docker
         environment:
-            - BAE_LP_SIOP_ENABLED=false
-            - BAE_LP_SIOP_CLIENT_ID=marketplace-client
-            - BAE_LP_SIOP_VERIFIER_HOST=https://verifier.dome-marketplace.org
-            - BAE_LP_SIOP_VERIFIER_QRCODE_PATH=/api/v1/loginQR
-            - BAE_LP_SIOP_VERIFIER_TOKEN_PATH=/token
-            - BAE_LP_SIOP_VERIFIER_JWKS_PATH=/.well-known/jwks
-            - BAE_LP_SIOP_CALLBACK_PATH=http://proxy.docker:8004/auth/vc/callback
-            - BAE_LP_SIOP_ALLOWED_ROLES=seller,customer
-            - BAE_LP_OAUTH2_SERVER=http://idm.docker:3000
-            - BAE_LP_OAUTH2_CLIENT_ID=${CLIENT_ID}
-            - BAE_LP_OAUTH2_CLIENT_SECRET=${CLIENT_SECRET}
-            - BAE_LP_OIDC_ENABLED=false
-            - process.env.BAE_LP_THEME=false
+          # MongoDB Configuration
+          - BAE_LP_MONGO_SERVER=proxy-mongo
+          - BAE_LP_MONGO_PORT=27017
+          - BAE_LP_MONGO_DB=belp_db
+
+          # Service Configuration
+          - BAE_LP_PORT=8004
+          - BAE_LP_HOST=0.0.0.0
+
+          # Charging Backend Connection
+          - BAE_LP_CHARGING_SERVER=http://charging.docker:8006
+
+          # TMForum APIs - Product Catalog (cada API en su puerto, sin path)
+          - BAE_LP_ENDPOINT_CATALOG_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_CATALOG_PORT=8632
+          - BAE_LP_ENDPOINT_RESOURCE_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_RESOURCE_PORT=8636
+          - BAE_LP_ENDPOINT_SERVICE_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_SERVICE_PORT=8637
+
+          # TMForum APIs - Inventory
+          - BAE_LP_ENDPOINT_INVENTORY_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_INVENTORY_PORT=8642
+          - BAE_LP_ENDPOINT_RESOURCE_INVENTORY_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_RESOURCE_INVENTORY_PORT=8641
+          - BAE_LP_ENDPOINT_SERVICE_INVENTORY_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_SERVICE_INVENTORY_PORT=8643
+
+          # TMForum APIs - Party & Ordering
+          - BAE_LP_ENDPOINT_PARTY_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_PARTY_PORT=8633
+          - BAE_LP_ENDPOINT_ORDERING_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_ORDERING_PORT=8639
+
+          # TMForum APIs - Billing & Usage
+          - BAE_LP_ENDPOINT_CUSTOMER_BILL_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_CUSTOMER_BILL_PORT=8645
+          - BAE_LP_ENDPOINT_BILLING_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_BILLING_PORT=8644
+          - BAE_LP_ENDPOINT_USAGE_HOST=host.docker.internal
+          - BAE_LP_ENDPOINT_USAGE_PORT=8080
+
+          # OAuth2 Configuration
+          - BAE_LP_OAUTH2_SERVER=http://idm.docker:3000
+          - BAE_LP_OAUTH2_CLIENT_ID=${CLIENT_ID}
+          - BAE_LP_OAUTH2_CLIENT_SECRET=${CLIENT_SECRET}
+          - BAE_LP_OIDC_KEY=${OIDC_KEY}
+          - BAE_LP_OAUTH2_ADMIN_ROLE=admin
+          - BAE_LP_OAUTH2_SELLER_ROLE=seller
+          - BAE_LP_OAUTH2_CUSTOMER_ROLE=customer
+          - BAE_LP_OAUTH2_ORG_ADMIN_ROLE=orgAdmin
+
+          # SIOP Configuration
+          - BAE_LP_SIOP_ENABLED=false
+
+          # Theme
+          - BAE_LP_THEME=
+
+          # Portal Configuration
+          - BAE_LP_EXTERNAL_PORTAL=http://localhost:4200
+          - BAE_LP_BILLING_ENGINE_URL=http://host.docker.internal:8006
+          - BAE_LP_PURCHASE_ENABLED=true
+
         volumes:
             - ../proxy-repo:/business-ecosystem-logic-proxy
 

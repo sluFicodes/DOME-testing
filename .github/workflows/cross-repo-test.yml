@@ -21,16 +21,26 @@ jobs:
           echo "starting system testing"
           BRANCH_A=${{ github.event.client_payload.branch_A }}
           BRANCH_B=${{ github.event.client_payload.branch_B }}
+          BRANCH_FRONTEND=${{ github.event.client_payload.branch_frontend }}
           echo "evaluating branches..."
-          echo "$BRANCH_A"
-          echo "$BRANCH_B"
+          echo "Proxy branch: $BRANCH_A"
+          echo "Charging branch: $BRANCH_B"
+          echo "Frontend branch: $BRANCH_FRONTEND"
+
+          # Set defaults if not provided
           if [[ -z $BRANCH_A ]]; then
             BRANCH_A=master
           fi
           if [[ -z $BRANCH_B ]]; then
             BRANCH_B=master
           fi
-          echo "proxy branch: $BRANCH_A"
-          echo "charging branch: $BRANCH_B"
-          ./testing.sh $BRANCH_A ${{ github.event.client_payload.repository_A }} $BRANCH_B ${{ github.event.client_payload.repository_B }} ${{ github.event.client_payload.tm_version }}
+          if [[ -z $BRANCH_FRONTEND ]]; then
+            BRANCH_FRONTEND=master
+          fi
+
+          echo "final proxy branch: $BRANCH_A"
+          echo "final charging branch: $BRANCH_B"
+          echo "final frontend branch: $BRANCH_FRONTEND"
+
+          ./testing.sh $BRANCH_A ${{ github.event.client_payload.repository_A }} $BRANCH_B ${{ github.event.client_payload.repository_B }} $BRANCH_FRONTEND ${{ github.event.client_payload.repository_frontend }} ${{ github.event.client_payload.tm_version }}
 
