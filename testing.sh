@@ -263,6 +263,11 @@ curl -X POST \
      http://localhost:3000/v1/applications/$CLIENT_ID/users/admin/roles/$orgAdmin_id
 
 
+echo -e "\033[35mpreparing proxy code...\033[0m"
+cd proxy-repo
+npm install || { echo -e "npm install failed for proxy."; exit 1; }
+cd ..
+
 echo -e "\033[35mdeploying charging\033[0m"
 cd charging-docker
 docker compose up -d > /dev/null 2>&1 || { echo -e "Docker compose up failed."; exit 1; }

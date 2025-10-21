@@ -89,6 +89,9 @@ services:
           - BAE_LP_BILLING_ENGINE_URL=http://host.docker.internal:8006
           - BAE_LP_PURCHASE_ENABLED=true
 
+        volumes:
+            - ../proxy-repo:/business-ecosystem-logic-proxy
+
 networks:
     main:
         external: true

@@ -25,6 +25,8 @@ services:
             main:
                 aliases:
                     - charging.docker
+        volumes:
+            - ../charging-repo/src:/business-ecosystem-charging-backend/src/
         environment:
         # Service Configuration
         - BAE_SERVICE_HOST=http://proxy.docker:8004/
