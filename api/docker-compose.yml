@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   party-catalog:
     image: quay.io/fiware/tmforum-party-catalog:${TM_VERSION}
@@ -268,4 +266,6 @@ services:
 
 networks:
   dome:
+    external: true
+  main:
     external: true

@@ -120,7 +120,7 @@ cd ..
 
 cd api
 export TM_VERSION
-docker compose up -d > /dev/null 2>&1
+docker compose up -d
 echo -e "\033[35mtmforum api deployed\033[0m"
 cd ..
 
@@ -282,13 +282,20 @@ sleep 20
 
 echo -e "\033[35mexecuting proxy...\033[0m"
 echo -e "\033[35mnode env: $NODE_ENV\033[0m"
-docker exec -d proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; exit 1; }
-wait_server http://localhost:8004/version proxy || { docker logs -f proxy-docker-proxy-1; exit 1; }
+echo -e "\033[35mproxy container status:\033[0m"
+docker ps -a | grep proxy-docker-proxy-1
+echo -e "\033[35mstarting proxy server...\033[0m"
+docker exec -d proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; docker logs proxy-docker-proxy-1; exit 1; }
+echo -e "\033[35msleeping 5 seconds before checking...\033[0m"
+sleep 5
+echo -e "\033[35mproxy logs:\033[0m"
+docker logs proxy-docker-proxy-1
+wait_server http://localhost:8004/version proxy || { echo -e "\033[31mProxy server failed to start\033[0m"; docker logs proxy-docker-proxy-1; exit 1; }
 
 echo -e "\033[35mexecuting charging...\033[0m"
 docker exec charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py migrate" || { echo -e "Docker exec migrate failed."; exit 1; }
 docker exec -d charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py runserver 0.0.0.0:8006" || { echo -e "Docker exec run charging server failed."; exit 1; }
-wait_server http://localhost:8004/service charging
+wait_server http://localhost:8006/service charging
 
 echo -e "\033[35mstarting frontend...\033[0m"
 cd frontend-repo
