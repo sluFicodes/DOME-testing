@@ -27,7 +27,7 @@ services:
                     - proxy.docker
         environment:
           # MongoDB Configuration
-          - BAE_LP_MONGO_SERVER=proxy-mongo
+          - BAE_LP_MONGO_SERVER=mongo
           - BAE_LP_MONGO_PORT=27017
           - BAE_LP_MONGO_DB=belp_db
 
