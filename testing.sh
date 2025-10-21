@@ -284,13 +284,15 @@ echo -e "\033[35mexecuting proxy...\033[0m"
 echo -e "\033[35mnode env: $NODE_ENV\033[0m"
 echo -e "\033[35mproxy container status:\033[0m"
 docker ps -a | grep proxy-docker-proxy-1
-echo -e "\033[35mstarting proxy server...\033[0m"
-docker exec -d proxy-docker-proxy-1 node server.js || { echo -e "Docker exec node proxy server failed."; docker logs proxy-docker-proxy-1; exit 1; }
-echo -e "\033[35msleeping 5 seconds before checking...\033[0m"
-sleep 5
-echo -e "\033[35mproxy logs:\033[0m"
-docker logs proxy-docker-proxy-1
-wait_server http://localhost:8004/version proxy || { echo -e "\033[31mProxy server failed to start\033[0m"; docker logs proxy-docker-proxy-1; exit 1; }
+echo -e "\033[35mstarting proxy server (with output)...\033[0m"
+docker exec proxy-docker-proxy-1 bash -c "cd /business-ecosystem-logic-proxy && node server.js > /tmp/proxy.log 2>&1 &"
+echo -e "\033[35msleeping 10 seconds for server to start...\033[0m"
+sleep 10
+echo -e "\033[35mproxy server logs:\033[0m"
+docker exec proxy-docker-proxy-1 cat /tmp/proxy.log || echo "No log file found"
+echo -e "\033[35mchecking if node process is running:\033[0m"
+docker exec proxy-docker-proxy-1 ps aux | grep node || echo "No node process found"
+wait_server http://localhost:8004/version proxy || { echo -e "\033[31mProxy server failed to start\033[0m"; docker exec proxy-docker-proxy-1 cat /tmp/proxy.log; exit 1; }
 
 echo -e "\033[35mexecuting charging...\033[0m"
 docker exec charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py migrate" || { echo -e "Docker exec migrate failed."; exit 1; }
