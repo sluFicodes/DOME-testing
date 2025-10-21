@@ -285,10 +285,9 @@ echo -e "\033[35mnode env: $NODE_ENV\033[0m"
 echo -e "\033[35mproxy container status:\033[0m"
 docker ps -a | grep proxy-docker-proxy-1
 echo -e "\033[35mchecking proxy container filesystem:\033[0m"
-docker exec proxy-docker-proxy-1 ls -la / | grep business || echo "No business dir in root"
-docker exec proxy-docker-proxy-1 find / -name "server.js" -type f 2>/dev/null | head -5 || echo "server.js not found"
+docker exec proxy-docker-proxy-1 ls -la /business-ecosystem-logic-proxy | head -20
 echo -e "\033[35mstarting proxy server (with output)...\033[0m"
-docker exec proxy-docker-proxy-1 bash -c "cd /opt/business-ecosystem-logic-proxy && node server.js > /tmp/proxy.log 2>&1 &"
+docker exec proxy-docker-proxy-1 bash -c "cd /business-ecosystem-logic-proxy && node server.js > /tmp/proxy.log 2>&1 &"
 echo -e "\033[35msleeping 10 seconds for server to start...\033[0m"
 sleep 10
 echo -e "\033[35mproxy server logs:\033[0m"
