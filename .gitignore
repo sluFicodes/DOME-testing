@@ -1,0 +1,16 @@
+# Cloned repositories
+proxy-repo/
+charging-repo/
+frontend-repo/
+
+# Docker volume data
+proxy-docker/proxy-data/
+charging-docker/charging-data/
+
+# Logs
+*.log
+frontend.log
+frontend.pid
+
+# Node modules
+node_modules/
