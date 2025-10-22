@@ -22,10 +22,9 @@ clone_repo_branch () {
     git clone -b $2 $1 "$3"
     cd "$3" || exit 1
     echo -e "\033[35m$3 repo cloned successfully.\033[0m"
-    cd docker-dev
     echo -e "\033[35mbuilding docker image...\033[0m"
-    docker build -qt $4 .
-    cd ../..
+    docker build -qt $4 -f docker/Dockerfile .
+    cd ..
 }
 
 # Clone frontend without docker build
@@ -120,7 +119,7 @@ cd ..
 
 cd api
 export TM_VERSION
-docker compose up -d
+docker compose up -d > /dev/null
 echo -e "\033[35mtmforum api deployed\033[0m"
 cd ..
 
@@ -276,30 +275,13 @@ cd ..
 echo -e "\033[35mproxy and charging deployed\033[0m"
 
 # 4. execute cloned dockers
-echo -e "\033[35mexecuting dockers...\033[0m"
+echo -e "\033[35mwaiting for services to start...\033[0m"
 
-sleep 20
+wait_server http://localhost:8004/version proxy || { echo -e "\033[31mProxy server failed to start\033[0m"; docker logs proxy-docker-proxy-1; exit 1; }
+echo -e "\033[35mproxy server is ready\033[0m"
 
-echo -e "\033[35mexecuting proxy...\033[0m"
-echo -e "\033[35mnode env: $NODE_ENV\033[0m"
-echo -e "\033[35mproxy container status:\033[0m"
-docker ps -a | grep proxy-docker-proxy-1
-echo -e "\033[35mchecking proxy container filesystem:\033[0m"
-docker exec proxy-docker-proxy-1 ls
-echo -e "\033[35mstarting proxy server (with output)...\033[0m"
-docker exec proxy-docker-proxy-1 bash -c "node server.js > /tmp/proxy.log 2>&1 &"
-echo -e "\033[35msleeping 10 seconds for server to start...\033[0m"
-sleep 10
-echo -e "\033[35mproxy server logs:\033[0m"
-docker exec proxy-docker-proxy-1 cat /tmp/proxy.log || echo "No log file found"
-echo -e "\033[35mchecking if node process is running:\033[0m"
-docker exec proxy-docker-proxy-1 ps aux | grep node || echo "No node process found"
-wait_server http://localhost:8004/version proxy || { echo -e "\033[31mProxy server failed to start\033[0m"; docker exec proxy-docker-proxy-1 cat /tmp/proxy.log; exit 1; }
-
-echo -e "\033[35mexecuting charging...\033[0m"
-docker exec charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py migrate" || { echo -e "Docker exec migrate failed."; exit 1; }
-docker exec -d charging-docker-charging-1 bash -c "cd /business-ecosystem-charging-backend/src && python3 manage.py runserver 0.0.0.0:8006" || { echo -e "Docker exec run charging server failed."; exit 1; }
-wait_server http://localhost:8004/service charging
+wait_server http://localhost:8004/service charging || { echo -e "\033[31mCharging server failed to start\033[0m"; docker logs charging-docker-charging-1; exit 1; }
+echo -e "\033[35mcharging server is ready\033[0m"
 
 echo -e "\033[35mstarting frontend...\033[0m"
 cd frontend-repo
