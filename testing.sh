@@ -285,7 +285,7 @@ echo -e "\033[35mnode env: $NODE_ENV\033[0m"
 echo -e "\033[35mproxy container status:\033[0m"
 docker ps -a | grep proxy-docker-proxy-1
 echo -e "\033[35mchecking proxy container filesystem:\033[0m"
-docker exec proxy-docker-proxy-1 ls -la /business-ecosystem-logic-proxy | head -20
+docker exec proxy-docker-proxy-1 ls
 echo -e "\033[35mstarting proxy server (with output)...\033[0m"
 docker exec proxy-docker-proxy-1 bash -c "cd /business-ecosystem-logic-proxy && node server.js > /tmp/proxy.log 2>&1 &"
 echo -e "\033[35msleeping 10 seconds for server to start...\033[0m"
