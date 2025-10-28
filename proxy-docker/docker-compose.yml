@@ -86,7 +86,7 @@ services:
 
           # Portal Configuration
           - BAE_LP_EXTERNAL_PORTAL=http://localhost:4200
-          - BAE_LP_BILLING_ENGINE_URL=http://host.docker.internal:8006
+          - BAE_LP_BILLING_ENGINE_URL=http://host.docker.internal:8006/charging/api/orderManagement/orders/preview/
           - BAE_LP_PURCHASE_ENABLED=true
 
 networks:

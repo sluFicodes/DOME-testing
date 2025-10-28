@@ -5,7 +5,7 @@ services:
     image: postgis/postgis
     platform: linux/amd64
     networks:
-      - dome
+      - main
     ports:
       - "5432"
     environment:
@@ -17,7 +17,7 @@ services:
     image: scorpiobroker/all-in-one-runner:java-4.1.10
     platform: linux/amd64
     networks:
-      - dome
+      - main
     environment:
       DBHOST: postgres
     ports:
@@ -26,5 +26,5 @@ services:
       - postgres
 
 networks:
-  dome:
+  main:
     external: true

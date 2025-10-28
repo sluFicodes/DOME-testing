@@ -26,6 +26,10 @@ services:
                 aliases:
                     - charging.docker
         environment:
+        # MongoDB Configuration
+        - BAE_CB_MONGO_SERVER=charging_mongo
+        - BAE_CB_MONGO_PORT=27017
+
         # Service Configuration
         - BAE_SERVICE_HOST=http://proxy.docker:8004/
         - BAE_CB_LOCAL_SITE=http://charging.docker:8006/

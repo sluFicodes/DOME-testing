@@ -4,7 +4,7 @@ services:
     ports:
       - 8633:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -28,7 +28,7 @@ services:
     ports:
       - 8643:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -52,7 +52,7 @@ services:
     ports:
       - 8644:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -76,7 +76,7 @@ services:
     ports:
       - 8632:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -100,7 +100,7 @@ services:
     ports:
       - 8637:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -124,7 +124,7 @@ services:
     ports:
       - 8636:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -148,7 +148,7 @@ services:
     ports:
       - 8639:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -172,7 +172,7 @@ services:
     ports:
       - 8642:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -196,7 +196,7 @@ services:
     ports:
       - 8641:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -220,7 +220,7 @@ services:
     ports:
       - 8080:8081
     networks:
-      - dome
+      - main
     environment:
       ENDPOINTS_ALL_PORT: 9090
       MICRONAUT_SERVER_PORT: 8081
@@ -265,7 +265,5 @@ services:
       API_EXTENSION_ENABLED: true
 
 networks:
-  dome:
-    external: true
   main:
     external: true
