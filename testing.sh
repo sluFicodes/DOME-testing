@@ -261,6 +261,91 @@ curl -X POST \
      -H "Content-Type: application/json" \
      http://localhost:3000/v1/applications/$CLIENT_ID/users/admin/roles/$orgAdmin_id
 
+# TODO INIT
+
+echo -e "\033[35mcreating SELLER ORG organization\033[0m"
+seller_org=$(curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "organization": {
+    "name": "SELLER ORG",
+    "description": "Seller organization for testing"
+  }
+}' \
+     http://localhost:3000/v1/organizations)
+seller_org_id=$(python3 auth_cred.py --attr organization --key id --sjson "$seller_org")
+echo -e "\033[35mSELLER ORG created with id: $seller_org_id\033[0m"
+
+echo -e "\033[35mcreating BUYER ORG organization\033[0m"
+buyer_org=$(curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "organization": {
+    "name": "BUYER ORG",
+    "description": "Buyer organization for testing"
+  }
+}' \
+     http://localhost:3000/v1/organizations)
+buyer_org_id=$(python3 auth_cred.py --attr organization --key id --sjson "$buyer_org")
+echo -e "\033[35mBUYER ORG created with id: $buyer_org_id\033[0m"
+
+echo -e "\033[35madding admin user to SELLER ORG\033[0m"
+curl -X PUT \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$seller_org_id/users/admin/organization_roles/member
+
+echo -e "\033[35massigning roles to admin in SELLER ORG\033[0m"
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$seller_org_id/users/admin/applications/$CLIENT_ID/roles/$seller_id
+
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$seller_org_id/users/admin/applications/$CLIENT_ID/roles/$customer_id
+
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$seller_org_id/users/admin/applications/$CLIENT_ID/roles/$admin_id
+
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$seller_org_id/users/admin/applications/$CLIENT_ID/roles/$orgAdmin_id
+
+echo -e "\033[35madding admin user to BUYER ORG\033[0m"
+curl -X PUT \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$buyer_org_id/users/admin/organization_roles/member
+
+echo -e "\033[35massigning roles to admin in BUYER ORG\033[0m"
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$buyer_org_id/users/admin/applications/$CLIENT_ID/roles/$seller_id
+
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$buyer_org_id/users/admin/applications/$CLIENT_ID/roles/$customer_id
+
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$buyer_org_id/users/admin/applications/$CLIENT_ID/roles/$admin_id
+
+curl -X POST \
+     -H "X-Auth-token: $admin_token" \
+     -H "Content-Type: application/json" \
+     http://localhost:3000/v1/organizations/$buyer_org_id/users/admin/applications/$CLIENT_ID/roles/$orgAdmin_id
+
+# TODO END
 
 echo -e "\033[35mdeploying charging\033[0m"
 cd charging-docker
