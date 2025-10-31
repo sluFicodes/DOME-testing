@@ -12,7 +12,6 @@ services:
     proxy:
         image: proxy-system-dev
         extra_hosts:
-            - "host.docker.internal:172.17.0.1"
             - "proxy.docker:127.0.0.1"
 
         links:
@@ -88,6 +87,7 @@ services:
           - BAE_LP_EXTERNAL_PORTAL=http://localhost:4200
           - BAE_LP_BILLING_ENGINE_URL=http://host.docker.internal:8006/charging/api/orderManagement/orders/preview/
           - BAE_LP_PURCHASE_ENABLED=true
+          - BAE_LP_PAYMENT_GATEWAY=http://host.docker.internal:4201
 
 networks:
     main:

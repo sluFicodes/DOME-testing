@@ -49,7 +49,7 @@ services:
         - BAE_CB_ORDERING=http://host.docker.internal:8639
 
         # TMForum APIs - Billing & Usage
-        - BAE_CB_CUSTOMER_BILL=http://host.docker.internal:8642
+        - BAE_CB_CUSTOMER_BILL=http://host.docker.internal:8645
         - BAE_CB_BILLING=http://host.docker.internal:8644 # ACCOUNT
         - BAE_CB_USAGE=http://host.docker.internal:8080
         # Roles
@@ -59,6 +59,8 @@ services:
         - BAE_LP_OAUTH2_ORG_ADMIN_ROLE=orgAdmin
         # Payment Configuration
         - BAE_CB_PAYMENT_METHOD=dpas
+        - BAE_CB_DPAS_CLIENT_API_URL=http://host.docker.internal:4201/api/payment-start
+        - BAE_SERVICE_HOST=http://localhost:4200/
 
 networks:
     main:

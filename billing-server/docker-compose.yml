@@ -1,0 +1,13 @@
+version: '3'
+services:
+  billing-server:
+    build: .
+    ports:
+      - "4201:4201"
+    command: node server.js
+    networks:
+      - main
+
+networks:
+  main:
+    external: true

@@ -14,3 +14,6 @@ frontend.pid
 
 # Node modules
 node_modules/
+
+.DS_Store
+idm-docker/vol-mysql/
